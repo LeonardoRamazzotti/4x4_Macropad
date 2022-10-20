@@ -9,6 +9,7 @@ Created on Mon Oct 17 22:11:25 2022
 import time
 import serial
 import subprocess
+import json
 import os
 import keyboard
 from tkinter import *
@@ -52,24 +53,18 @@ def run_software(path):
 
 def run():
 
-	keymap={
-		0:'/Applications/"Google Chrome.app"',
-		1:'/Applications/"Sublime Text.app"',
-		2:'/Applications/"Spotify.app"',
-		3:'/System/Applications/Utilities/Terminal.app',
-		4:'/Applications/"Microsoft Word.app"',
-		5:'/Applications/"Microsoft Excel.app"',
-		6:'windows+space',
-		7:'fsdfsdf',
-		8:'fsdfsdf',
-		9:'fsdfsdf',
-		10:'fsdfsdf',
-		11:'/Applications/"Sublime Text.app"',
-		12:'/Applications/"Spotify.app"',
-		13:'/System/Applications/Utilities/Terminal.app',
-		14:'/Applications/"Microsoft Word.app"',
-		15:'/Applications/"Microsoft Excel.app"',
-		}
+	root.withdraw()
+
+	with open('maacos.conf') as f:
+		map_conf = f.read()
+  
+	print("Data type before reconstruction : ", type(map_conf))
+	      
+	# reconstructing the data as a dictionary
+	keymap = json.loads(map_conf)
+	  
+	print("Data type after reconstruction : ", type(keymap))
+	print(keymap)
 
 	selected= str(clicked.get())
 
@@ -91,7 +86,7 @@ def run():
 
 
 
-
+	root.destroy()
 
 
 	while True:
@@ -107,11 +102,11 @@ def run():
 		print(type(data))
 		print(data)
 
-		if '/' in keymap[data]:
+		if '/' in keymap[str(data)]:
 
-			run_software(keymap[data])
+			run_software(keymap[str(data)])
 		else:
-			macro(keymap[data])
+			macro(keymap[str(data)])
 
 	ser.close()
 
