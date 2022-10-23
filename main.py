@@ -12,8 +12,33 @@ import subprocess
 import json
 import os
 import keyboard
+import platform
 from tkinter import *
+import webbrowser
 import serial.tools.list_ports
+
+
+def system_rec():
+	os = platform.system()
+
+	return os
+
+def keymap_open():
+
+	os_rec= system_rec()
+
+	if os_rec == 'Darwin':
+
+		webbrowser.open('keymapping_files/macos.conf')
+			
+	elif os_rec == 'Linux':
+
+		webbrowser.open('keymapping_files/linux.conf')
+
+	else:
+
+		webbrowser.open('keymapping_files/win.conf')
+
 
 def port_define(str_port):
 
@@ -55,8 +80,23 @@ def run():
 
 	root.withdraw()
 
-	with open('maacos.conf') as f:
-		map_conf = f.read()
+	os_rec = system_rec()
+
+	if os_rec == 'Darwin':
+
+		with open('keymapping_files/macos.conf') as f:
+			map_conf = f.read()
+
+	elif os_rec == 'Linux':
+
+		with open('keymapping_files/linux.conf') as f:
+			map_conf = f.read()
+
+	else:
+
+		with open('keymapping_files/win.conf') as f:
+			map_conf = f.read()
+
   
 	print("Data type before reconstruction : ", type(map_conf))
 	      
